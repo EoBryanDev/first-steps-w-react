@@ -1,48 +1,43 @@
-import logo from './logo.svg';
 import './App.css';
 import { Component } from 'react';
 
 //Class component returning JSX
-class App extends Component{
+class App extends Component {
 
-    state = {
-      name : 'Maurício Bryan',
-      counter : 0
-    };
+  state = {
+    posts: [
+      {
+        id: 1,
+        title: 'First title',
+        body: 'First body'
+      },
+      {
+        id: 2,
+        title: 'Second title',
+        body: 'Second body'
+      },
+      {
+        id: 3,
+        title: 'Third title',
+        body: 'Third body'
+      }
+    ]
+  };
 
-  // ON CLICK CHANGE THE NAME STATE
-  handlePClick = () => {
-    //const { name } = this.state;
-    //console.log(`<p> foi clicado por ${name}`)
-    this.setState({ name : 'Bryan Please' })
-  }
-  // ON CLICK CHANGE COUNTER
-  handleAClick = (event) => {
-    event.preventDefault();
-    const {counter} = this.state;
-    this.setState({counter : counter + 1})
-  }
 
-  render(){
+
+  render() {
     //const name = this.state.name;
-    const { name , counter} = this.state;
+    const { posts } = this.state;
 
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p onClick={this.handlePClick}>
-            {name}
-          </p>
-          <a onClick={this.handleAClick}
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Este é o link clicado {counter} vez(es)
-          </a>
-        </header>
+        {posts.map(post => (
+          <div key={post.id}>
+            <h1>{post.title}</h1>
+            <p>{post.body}</p>
+          </div>
+        ))}
       </div>
     );
   }
