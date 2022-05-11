@@ -5,6 +5,7 @@ import { Component } from 'react';
 class App extends Component {
 
   state = {
+    counter: 0,
     posts: [
       {
         id: 1,
@@ -22,19 +23,47 @@ class App extends Component {
         body: 'Third body'
       }
     ]
-  };
+  }; 
+
+  timeoutUpdate = null;
+
+
+  //<LIFECYCLE METHODS = LIFECYCLE>
+  componentDidMount(){            //COMPONENT BUILT
+    this.handleTimeout();
+  }
+
+  componentDidUpdate(){           //COMPONENT UPDATED
+    this.handleTimeout(); 
+   }
+
+   componentWillUnmount(){         //COMPONENT UNSET
+    clearTimeout(this.timeoutUpdate);
+   }
+  //</LIFECYCLE METHODS>
+
+
+  //A METHOD EXECUTED WITH LIFECYCLE COMPONENT
+  handleTimeout = () =>{
+    const { posts, counter } = this.state;
+    posts[0].title = 'Title changed up';
+    this.timeoutUpdate = setTimeout(() => {
+      this.setState({posts , counter: counter + 1})
+    }, 1000);
+  }
 
 
 
   render() {
     //const name = this.state.name;
-    const { posts } = this.state;
+    const { posts, counter } = this.state;
 
     return (
       <div className="App">
+        <p>{counter}</p>
         {posts.map(post => (
           <div key={post.id}>
-            <h1>{post.title}</h1>
+            <h2>{post.title}</h2>
             <p>{post.body}</p>
           </div>
         ))}
