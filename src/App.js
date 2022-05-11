@@ -6,68 +6,50 @@ class App extends Component {
 
   state = {
     counter: 0,
-    posts: [
-      {
-        id: 1,
-        title: 'First title',
-        body: 'First body'
-      },
-      {
-        id: 2,
-        title: 'Second title',
-        body: 'Second body'
-      },
-      {
-        id: 3,
-        title: 'Third title',
-        body: 'Third body'
-      }
-    ]
-  }; 
-
-  timeoutUpdate = null;
-
+    posts: []
+  };
 
   //<LIFECYCLE METHODS = LIFECYCLE>
-  componentDidMount(){            //COMPONENT BUILT
-    this.handleTimeout();
+  componentDidMount() {            //COMPONENT BUILT
+    this.loadPosts();
   }
-
-  componentDidUpdate(){           //COMPONENT UPDATED
-    this.handleTimeout(); 
-   }
-
-   componentWillUnmount(){         //COMPONENT UNSET
-    clearTimeout(this.timeoutUpdate);
-   }
   //</LIFECYCLE METHODS>
 
+  loadPosts = async () => {
+    const postsResponse = fetch('https://jsonplaceholder.typicode.com/posts');
 
-  //A METHOD EXECUTED WITH LIFECYCLE COMPONENT
-  handleTimeout = () =>{
-    const { posts, counter } = this.state;
-    posts[0].title = 'Title changed up';
-    this.timeoutUpdate = setTimeout(() => {
-      this.setState({posts , counter: counter + 1})
-    }, 1000);
+    const photosResponse = fetch('https://jsonplaceholder.typicode.com/photos')
+
+    const [posts , photos] = await Promise.all([postsResponse, photosResponse]);
+
+    const postsJson = await posts.json();
+    const photosJson = await photos.json();
+
+    const postsAndPhotos = postsJson.map((post,index) => {
+      return { ...post, cover: photosJson[index].url }
+    });
+    
+    this.setState({ posts: postsAndPhotos})
   }
-
-
 
   render() {
     //const name = this.state.name;
-    const { posts, counter } = this.state;
+    const { posts } = this.state;
 
     return (
-      <div className="App">
-        <p>{counter}</p>
-        {posts.map(post => (
-          <div key={post.id}>
-            <h2>{post.title}</h2>
-            <p>{post.body}</p>
-          </div>
-        ))}
-      </div>
+      <section className='container'>
+        <div className="posts">
+          {posts.map(post => (
+            <div className="post">
+              <img src={post.cover} alt={post.title}></img>
+              <div key={post.id} className="post-content">
+                <h2>{post.title}</h2>
+                <p>{post.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     );
   }
 }
