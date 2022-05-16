@@ -1,9 +1,13 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+/* eslint-disable no-undef */
+import React from 'react';
+import { render, screen } from '@testing-library/react'
 import { Button } from '.';
+import userEvent from '@testing-library/user-event';
 
 describe('<Button />', () => {
   it('should render the button with the text', () => {
-    render(<Button text="Load More Posts" />);
+    const fn = jest.fn();
+    render(<Button text="Load More Posts" disabled={true} onClick={fn} />);
     const button = screen.getByRole('button', { name: /Load More Posts/ });
 
     expect.assertions(1);
@@ -12,16 +16,17 @@ describe('<Button />', () => {
   });
   it('should call a function on button click', () => {
     const fn = jest.fn();
-    render(<Button text="Load More Posts" onClick={fn} />);
+    render(<Button text="Load More Posts" disabled={true} onClick={fn} />);
 
     const button = screen.getByRole('button', { name: /Load More Posts/ });
-    fireEvent.click(button);
+    userEvent.click(button);
 
     expect(fn).toHaveBeenCalledTimes(1);
   });
 
   it('should be disable when disabled is true', () => {
-    render(<Button text="Load More Posts" disabled={true} />);
+    const fn = jest.fn();
+    render(<Button text="Load More Posts" disabled={true} onClick={fn} />);
     const button = screen.getByRole('button', { name: /Load More Posts/ });
 
 
@@ -38,7 +43,7 @@ describe('<Button />', () => {
     const fn = jest.fn();
     const {container} = render(<Button text="Load More Posts" onClick={fn} />);
 
-    // eslint-disable-next-line testing-library/no-node-access
+
     expect(container.firstChild).toMatchSnapshot();
   })
 });

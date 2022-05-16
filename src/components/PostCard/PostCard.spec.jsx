@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { PostCard } from '.';
 import { postCardPropsMock } from './mock';
@@ -18,7 +20,7 @@ describe('<PostCard />', () => {
   });
   it('should match snapshot', () => {
     const { container } = render(<PostCard {...props}/>);
-    // eslint-disable-next-line testing-library/no-node-access
+
     expect(container.firstChild).toMatchSnapshot();
   })
 });

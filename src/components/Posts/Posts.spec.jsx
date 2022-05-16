@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Posts } from '.';
 
@@ -39,7 +41,7 @@ describe('<Posts />', () => {
   it('should match snapshot', () => {
     const { container } = render(<Posts  {...props} />);
 
-    // eslint-disable-next-line testing-library/no-node-access
+
     expect(container.firstChild).toMatchSnapshot();
   });
 

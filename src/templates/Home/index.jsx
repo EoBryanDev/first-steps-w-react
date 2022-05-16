@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-
+import React from 'react';
 import './styles.css';
 
 import { loadPosts } from '../../utils/load-posts';
@@ -40,10 +40,10 @@ export const Home = () => {
     setSearchValue(value);
 
   }
-  
+
   const noMorePosts = page + postsPerPage >= allPosts.length;
 
-  const filteredPosts = !!searchValue ?
+  const filteredPosts = searchValue ?
     allPosts.filter(post => {
       return post.title.toLowerCase()
         .includes(searchValue.toLowerCase());
@@ -84,3 +84,4 @@ export const Home = () => {
 }
 
 export default Home;
+
