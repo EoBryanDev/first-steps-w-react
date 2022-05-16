@@ -110,7 +110,25 @@ describe('< Home />', () => {
 
   });
 
-  
+  it("should load more posts", async () => {
+    render(<Home />)
+    const noMorePosts = screen.getAllByText('There were not found any post!')
+
+    //expect.assertions(3);
+
+    await waitForElementToBeRemoved(noMorePosts);
+
+    const button = screen.getByRole('button', { name: /load more posts/i });
+    userEvent.click(button);
+
+    expect(screen.queryByRole('heading', { name: 'title 3 3' }))
+    .toBeInTheDocument();
+    expect(button).toBeDisabled();
+
+
+
+  });
+
 
 });
 
